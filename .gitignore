@@ -1,0 +1,4 @@
+__pycache__/
+.idea/
+dvector_create.py
+VAD_segments.py
