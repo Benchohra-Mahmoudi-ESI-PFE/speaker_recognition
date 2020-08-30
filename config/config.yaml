@@ -41,12 +41,18 @@ test:
 
 ---
 integration:
+    receiver_app: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/'
+
     verify_upload_folder: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/uploads_verification/'
 
     speaker_verification_path: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/Speaker_Verification_Vox1/' #path to the speaker verification model
     enroll_upload_audio_folder: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/uploads_enrollment/audio/'
     enroll_preprocessed_audio: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/enroll_preprocessed/audio/'
+    restriction_cutoff: 2 # Number of best speakers to consider for speaker verification (Top speakers)
+    speech_threshold: 0.7
 
     face_verification_path: '/home/sahar/benchohra/DFace_production/'
     enroll_upload_photo_folder: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/uploads_enrollment/photo/'
     enroll_preprocessed_photo: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/enroll_preprocessed/photo/'
+    face_threshold: 0.6
+
