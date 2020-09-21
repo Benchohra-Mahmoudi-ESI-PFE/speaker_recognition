@@ -58,7 +58,7 @@ def speaker_enroll(wav_file_path):
     speaker_id = os.path.splitext(os.path.basename(wav_file_path))[0]
     speaker_id = speaker_id.split('_')
     speaker_id = "_".join(speaker_id[0:4])
-    np.save(os.path.join(hp.integration.enroll_preprocessed_audio, speaker_id + ".npy"), utterances_spec)
+    np.save(os.path.join(hp.integration.enroll_preprocessed_audio, speaker_id + "_audio.npy"), utterances_spec)
     # returns the speaker_id as a string
     return speaker_id  
 
@@ -125,7 +125,7 @@ def speaker_verify(npy_file, wav_file_path):
     verification_embeddings = torch.reshape(verification_embeddings, (hp.test.N, hp.test.M//2, verification_embeddings.size(1)))
 
 
-    enrollment_centroids = get_centroids(enrollment_embeddings)
+    enrollment_centroids = get_centroids(enrollment_embeddings) 
     
     sim_matrix = get_cossim(verification_embeddings, enrollment_centroids)
 
@@ -182,6 +182,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+
 if __name__ == "__main__":
 
     # speaker_to_test_path = "20200519_191124"   # female
@@ -207,7 +208,7 @@ if __name__ == "__main__":
             
         #args.best_identified_speakers = 'speaker_result.txt'
         accuracy_list.sort(key=lambda tup: tup[1], reverse=True)  
-        accuracy_list = accuracy_list[ :hp.integration.restriction_cutoff]
+        #accuracy_list = accuracy_list[ :hp.integration.restriction_cutoff]
 
         with open(args.best_identified_speakers + 'speaker_result.data', 'wb') as filehandle:
             # store the data as binary data stream

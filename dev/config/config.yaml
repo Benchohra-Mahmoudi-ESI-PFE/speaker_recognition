@@ -56,3 +56,10 @@ integration:
     enroll_preprocessed_photo: '/home/sahar/Documents/Mahmoudi_Benchohra_Project/receiver/enroll_preprocessed/photo/'
     face_threshold: 0.6
 
+---
+app:
+    ENV: 'dev'
+    dev_db_username: 'postgres' # this is the role username
+    dev_db_password: 'pfe123' # this is the role password
+    dev_db_host: '193.194.91.145'
+    dev_db_name: 'acs_pfe'
