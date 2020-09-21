@@ -11,6 +11,8 @@ import torch
 import torch.autograd as grad
 import torch.nn.functional as F
 
+import sys
+sys.path.insert(1, '../config')
 from hparam import hparam as hp
 
 def get_centroids_prior(embeddings):

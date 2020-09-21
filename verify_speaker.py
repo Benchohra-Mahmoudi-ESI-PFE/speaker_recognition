@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#Modified from https://github.com/JanhHyun/Speaker_Verification
+
 import glob
 import os
 import librosa
 import numpy as np
-from hparam import hparam as hp
 import argparse
 import pickle
 
@@ -15,12 +14,13 @@ from datetime import datetime
 import torch
 from torch.utils.data import DataLoader
 
-from data_load import SpeakerDatasetTIMIT, SpeakerDatasetTIMITPreprocessed
 from speech_embedder_net import SpeechEmbedder, GE2ELoss, get_centroids, get_cossim
+
+from hparam import hparam as hp
 
 
 embedder_net = SpeechEmbedder()
-embedder_net.load_state_dict(torch.load(hp.model.model_path))
+embedder_net.load_state_dict(torch.load('../speaker_recognition/model.model')) # file path relative the the called of the class, which is receiver_app/app.py
 embedder_net.eval()
 
 

@@ -9,8 +9,9 @@ Created on Wed Sep  5 20:58:34 2018
 import torch
 import torch.nn as nn
 
-from hparam import hparam as hp
 from utils import get_centroids, get_cossim, calc_loss
+
+from hparam import hparam as hp
 
 class SpeechEmbedder(nn.Module):
     
