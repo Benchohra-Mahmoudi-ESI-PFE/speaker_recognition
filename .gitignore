@@ -4,3 +4,4 @@ dvector_create.py
 VAD_segments.py
 test_wav_old/
 *.pyc
+dev/
