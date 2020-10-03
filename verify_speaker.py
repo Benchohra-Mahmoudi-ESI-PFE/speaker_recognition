@@ -37,8 +37,13 @@ def speaker_enroll(wav_file_path):
 
     #utter_path = wav_file_path #os.path.join(hp.integration.enroll_upload_folder, 'audio', wav_file_path)         # path of each utterance
     utter, sr = librosa.core.load(wav_file_path, hp.data.sr)        # load utterance audio
+    # utter, sr = librosa.core.load(wav_file_path, sr=None)
+    # utter, sr = librosa.core.load(wav_file_path)
+    # print(sr)
     #intervals = librosa.effects.split(utter, top_db=30)         # voice activity detection 
     intervals = librosa.effects.split(utter)
+    # print("---------------------------------")
+    # print(intervals)
     # this works fine for timit but if you get array of shape 0 for any other audio change value of top_db
     # for vctk dataset use top_db=100
     for interval in intervals:
@@ -48,6 +53,7 @@ def speaker_enroll(wav_file_path):
                                     win_length=int(hp.data.window * sr), hop_length=int(hp.data.hop * sr))
             S = np.abs(S) ** 2
             mel_basis = librosa.filters.mel(sr=hp.data.sr, n_fft=hp.data.nfft, n_mels=hp.data.nmels)
+            # mel_basis = librosa.filters.mel(22050, n_fft=hp.data.nfft, n_mels=hp.data.nmels)
             S = np.log10(np.dot(mel_basis, S) + 1e-6)           # log mel spectrogram of utterances
             utterances_spec.append(S[:, :hp.data.tisv_frame])    # first 180 frames of partial utterance
             utterances_spec.append(S[:, -hp.data.tisv_frame:])   # last 180 frames of partial utterance
@@ -69,6 +75,8 @@ def speaker_verify(npy_file, wav_file_path):
     utterances_spec = []
     #utter_path = wav_file_path #os.path.join(hp.integration.verify_upload_folder, wav_file_path)         # path of each utterance
     utter, sr = librosa.core.load(wav_file_path, hp.data.sr)        # load utterance audio
+    # utter, sr = librosa.core.load(wav_file_path, sr=None)
+    # utter, sr = librosa.core.load(wav_file_path)
     #intervals = librosa.effects.split(utter, top_db=30)         # voice activity detection 
     intervals = librosa.effects.split(utter)
     # this works fine for timit but if you get array of shape 0 for any other audio change value of top_db
@@ -80,6 +88,7 @@ def speaker_verify(npy_file, wav_file_path):
                                     win_length=int(hp.data.window * sr), hop_length=int(hp.data.hop * sr))
             S = np.abs(S) ** 2
             mel_basis = librosa.filters.mel(sr=hp.data.sr, n_fft=hp.data.nfft, n_mels=hp.data.nmels)
+            # mel_basis = librosa.filters.mel(22050, n_fft=hp.data.nfft, n_mels=hp.data.nmels)
             S = np.log10(np.dot(mel_basis, S) + 1e-6)           # log mel spectrogram of utterances
             utterances_spec.append(S[:, :hp.data.tisv_frame])    # first 180 frames of partial utterance
             utterances_spec.append(S[:, -hp.data.tisv_frame:])   # last 180 frames of partial utterance
@@ -202,10 +211,9 @@ if __name__ == "__main__":
             #print("File : " + npy_file)
             accuracy = speaker_verify(hp.integration.enroll_preprocessed_audio + npy_file, speaker_to_test_path)
             #speaker_name = ' '.join(os.path.splitext(npy_file)[0].split('_')[2:])
-            npy_file = os.path.splitext(npy_file)[0]
-            accuracy_list.append((npy_file, accuracy))
+            id = '_'.join(npy_file.split('_')[:4])
+            accuracy_list.append((id, accuracy))
         
-            
         #args.best_identified_speakers = 'speaker_result.txt'
         accuracy_list.sort(key=lambda tup: tup[1], reverse=True)  
         #accuracy_list = accuracy_list[ :hp.integration.restriction_cutoff]
@@ -221,3 +229,4 @@ if __name__ == "__main__":
         #enroll_audio_path = os.path.join(hp.integration.enroll_upload_folder, 'audio/')
         speaker_enroll(args.test_wav_file)
         
+
